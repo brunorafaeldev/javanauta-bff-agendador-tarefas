@@ -31,6 +31,7 @@ public class TarefasController {
     @Operation(summary = "Salvar tarefas de usuarios", description = "cria uma nova tarefa")
     @ApiResponse(responseCode = "200", description = "tarefa salva com sucesso")
     @ApiResponse(responseCode = "500", description = "Erro de servidor")
+    @ApiResponse(responseCode = "401", description = "Usuário não encontrado")
     public ResponseEntity<TarefasDTOResponse> gravarTarefas(@RequestBody TarefasDTORequest dto,
                                                             @RequestHeader(name = "Authorization", required = false) String token) {
         return ResponseEntity.ok(tarefasService.gravarTarefas(dto, token));
@@ -40,6 +41,7 @@ public class TarefasController {
     @Operation(summary = "Busca tarefas por período", description = "busca tarefas cadastradas por período")
     @ApiResponse(responseCode = "200", description = "tarefas encontradas")
     @ApiResponse(responseCode = "500", description = "Erro de servidor")
+    @ApiResponse(responseCode = "401", description = "Usuário não encontrado")
     public ResponseEntity<List<TarefasDTOResponse>> buscaListaTarefasPorPeriodo(
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dataInicial,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dataFinal,
@@ -53,6 +55,8 @@ public class TarefasController {
                 description = "busca tarefas cadastradas por usuário")
     @ApiResponse(responseCode = "200", description = "tarefas encontradas")
     @ApiResponse(responseCode = "500", description = "Erro de servidor")
+    @ApiResponse(responseCode = "403", description = "Email não encontrado")
+    @ApiResponse(responseCode = "401", description = "Usuário não encontrado")
     public ResponseEntity<List<TarefasDTOResponse>> buscaTarefasPorEmail(@RequestHeader(name = "Authorization", required = false) String token) {
 
         return ResponseEntity.ok(tarefasService.buscaTarefasPorEmailUsuario(token));
@@ -62,6 +66,8 @@ public class TarefasController {
     @Operation(summary = "Deletas tarefas cadastradas por ID", description = "deletas tarefas cadastradas por ID")
     @ApiResponse(responseCode = "200", description = "tarefa deletadas")
     @ApiResponse(responseCode = "500", description = "Erro de servidor")
+    @ApiResponse(responseCode = "403", description = "Tarefa Id não encontrado")
+    @ApiResponse(responseCode = "401", description = "Usuário não encontrado")
     public ResponseEntity<Void> deletaTarefasPorId(@RequestParam("id") String id,
                                                    @RequestHeader(name = "Authorization", required = false) String token) {
 
@@ -74,6 +80,8 @@ public class TarefasController {
     @Operation(summary = "Altera status de tarefas", description = "altera status de taredas cadastradas")
     @ApiResponse(responseCode = "200", description = "status de tarefa alterado")
     @ApiResponse(responseCode = "500", description = "Erro de servidor")
+    @ApiResponse(responseCode = "403", description = "Tarefa Id não encontrado")
+    @ApiResponse(responseCode = "401", description = "Usuário não encontrado")
     public ResponseEntity<TarefasDTOResponse> alteraStatusNotificacao(@RequestParam("status") StatusNotificacaoEnum status,
                                                                       @RequestParam("id") String id,
                                                                       @RequestHeader(name = "Authorization", required = false) String token) {
@@ -86,6 +94,8 @@ public class TarefasController {
     @Operation(summary = "Altera dados de tarefas", description = "Altera dados de tarefas cadastradas")
     @ApiResponse(responseCode = "200", description = "tarefa alterada")
     @ApiResponse(responseCode = "500", description = "Erro de servidor")
+    @ApiResponse(responseCode = "403", description = "Tarefa Id não encontrado")
+    @ApiResponse(responseCode = "401", description = "Usuário não encontrado")
     public ResponseEntity<TarefasDTOResponse> updateTarefas(@RequestBody TarefasDTORequest dto,
                                                             @RequestParam("id") String id,
                                                             @RequestHeader(name = "Authorization", required = false) String token) {
